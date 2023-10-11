@@ -5,3 +5,44 @@
   These cats have not arrived to us yet, but we are expecting their arrival
   within a couple of weeks.
 </h5>
+
+{{#if dbError}}
+  <p class="subtitle has-text-centered" style="margin-top:100px ;">Couldn't
+    display the page right now, try again later</p>
+  <div class="column has-text-centered">
+    <a href="/" class="button is-responsive mt-2">Go to start page</a>
+  </div>
+{{else}}
+  <body>
+    {{#if allArrivingCats.length}}
+      <section class="section">
+        <div class="container">
+          <div class="columns is-multiline is-8 is-variable">
+            {{#each allArrivingCats}}
+
+              <div class="column is-4-tablet is-3-desktop">
+                <section class="container">
+
+                  <div class="has-text-centered">
+                    <a
+                      href="/arriving-cat/{{this.arrivingCatID}}"
+                      class="subtitle is-centered has-text-centered"
+                    >{{this.name}}</a>
+
+                  </div>
+                </section>
+              </div>
+
+            {{/each}}
+          </div>
+        </div>
+      </section>
+    {{else}}
+      <div class="colums has-text-centered">
+        <div class="column subtitle">
+
+        </div>
+      </div>
+    {{/if}}
+  </body>
+{{/if}}

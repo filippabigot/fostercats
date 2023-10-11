@@ -15,17 +15,39 @@ db.run(`
     )
 `);
 
-db.run(`
-INSERT INTO availableCats (availableCatID, name, publishDate, birth, description, color, breed, location)
- VALUES (1, "Hassan", 20231201, 20210508, "A shy boy found in a shed", "Red", "No Breed", "Huskvarna");
-`);
+//db.run(`
+//INSERT INTO arrivingCats (arrivingCatID, name, estimatedArrival, birth, description, color, breed, origin)
+// VALUES (1, "Hassan", 20231201, 20210508, "A shy boy found in a shed", "Red", "No Breed", "Huskvarna");
+//`);
 
-db;
+// db.run(`
+// INSERT INTO arrivingCats (arrivingCatID, name, estimatedArrival, birth, description, color, breed, origin)
+// VALUES (2, "Lisa", 20231201, 20210508, "A shy boy found in a shed", "Red", "No Breed", "Huskvarna");
+// `);
+
+// db.run(`
+// INSERT INTO arrivingCats (arrivingCatID, name, estimatedArrival, birth, description, color, breed, origin)
+// VALUES (3, "Mimmi", 20231201, 20210508, "A shy boy found in a shed", "Red", "No Breed", "Huskvarna");
+// `);
+
+// db.run(`
+// INSERT INTO arrivingCats (arrivingCatID, name, estimatedArrival, birth, description, color, breed, origin)
+// VALUES (4, "Lollo", 20231201, 20210508, "A shy boy found in a shed", "Red", "No Breed", "Huskvarna");
+// `);
 
 exports.getAllArrivingCats = function (callback) {
   const query = `SELECT * FROM arrivingCats`;
 
   db.all(query, function (error, allArrivingCats) {
     callback(error, allArrivingCats);
+  });
+};
+
+exports.getSpecificCat = function (id, callback) {
+  const query = `SELECT * FROM arrivingCats WHERE arrivingCatID = ?`;
+  const values = [id];
+
+  db.get(query, values, function (error, arrivingCat) {
+    callback(error, arrivingCat);
   });
 };

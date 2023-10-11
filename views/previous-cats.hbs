@@ -1,7 +1,49 @@
 <h1 class="title has-text-centered pt-6">
   Previous Cats
 </h1>
+
 <h5 class="title is-5 has-text-centered pt-2">
   Say Hello to our previous cats, they have now been adopted and found their
   forever homes.
 </h5>
+
+{{#if dbError}}
+  <p class="subtitle has-text-centered" style="margin-top:100px ;">Couldn't
+    display the page right now, try again later</p>
+  <div class="column has-text-centered">
+    <a href="/" class="button is-responsive mt-2">Go to start page</a>
+  </div>
+{{else}}
+  <body>
+    {{#if allPreviousCats.length}}
+      <section class="section">
+        <div class="container">
+          <div class="columns is-multiline is-8 is-variable">
+            {{#each allPreviousCats}}
+
+              <div class="column is-4-tablet is-3-desktop">
+                <section class="container">
+
+                  <div class="has-text-centered">
+                    <a
+                      href="/previous-cat/{{previousCatID}}"
+                      class="subtitle is-centered has-text-centered"
+                    >{{this.name}}</a>
+
+                  </div>
+                </section>
+              </div>
+
+            {{/each}}
+          </div>
+        </div>
+      </section>
+    {{else}}
+      <div class="colums has-text-centered">
+        <div class="column subtitle">
+
+        </div>
+      </div>
+    {{/if}}
+  </body>
+{{/if}}
