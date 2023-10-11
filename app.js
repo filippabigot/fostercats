@@ -1,5 +1,9 @@
 const express = require("express");
 const expressHandlebars = require("express-handlebars");
+//const expressSession = require("express-session");
+//const SQLiteStore = require("connect-sqlite3")(expressSession);
+const path = require("node:path");
+const dbAvailableCats = require("./dbAvailable-cats.js");
 
 const app = express();
 
@@ -23,7 +27,21 @@ app.get("/about", function (request, response) {
 });
 
 app.get("/available-cats", function (request, response) {
-  response.render("available-cats.hbs");
+  dbAvailableCats.getAllAvailableCats(function (error, allAvailableCats) {
+    if (error) {
+      console.log(error);
+      const model = {
+        dbError: true,
+      };
+      response.render("available-cats.hbs", model);
+    } else {
+      const model = {
+        dbError: false,
+        allAvailableCats,
+      };
+      response.render("available-cats.hbs", model);
+    }
+  });
 });
 
 app.get("/contact", function (request, response) {
@@ -36,6 +54,14 @@ app.get("/foster-care", function (request, response) {
 
 app.get("/sponsors", function (request, response) {
   response.render("sponsors.hbs");
+});
+
+app.get("/arriving-cats", function (request, response) {
+  response.render("arriving-cats.hbs");
+});
+
+app.get("/previous-cats", function (request, response) {
+  response.render("previous-cats.hbs");
 });
 
 app.listen(8080);

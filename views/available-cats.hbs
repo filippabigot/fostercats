@@ -1,3 +1,14 @@
 <h1 class="title has-text-centered pt-6">
   Available Cats
 </h1>
+<h5 class="title is-5 has-text-centered pt-2">
+  You can visit our available cats at our local shelter or buy booking an
+  appointment at one of our foster homes.
+</h5>
+
+
+
+{{#each allAvailableCats}}
+  <p>{{this.name}}</p>
+{{/each}}
+
