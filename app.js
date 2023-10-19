@@ -3,14 +3,24 @@ const expressHandlebars = require("express-handlebars");
 const dbAvailableCats = require("./dbAvailable-cats.js");
 const dbPreviousCats = require("./dbPrevious-cats.js");
 const dbArrivingCats = require("./dbArriving-cats.js");
-
 const bodyParser = require("body-parser");
-
 const correctUsername = "filippa";
 const correctPassword = "123";
-
 const app = express();
-app.use(bodyParser.urlencoded({ extended: true }));
+
+// Require the express-session middleware
+const session = require("express-session");
+
+// Configure and set up session management
+app.use(
+  session({
+    secret: "your-secret-key", // Replace with a secure secret key
+    resave: false,
+    saveUninitialized: true,
+  })
+);
+
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.engine(
   "hbs",
@@ -18,6 +28,8 @@ app.engine(
     defaultLayout: "main.hbs",
   })
 );
+
+app.use(express.static("public"));
 
 app.get("/", function (request, response) {
   response.render("start.hbs");
@@ -159,11 +171,11 @@ app.get("/available-cat/:id", function (request, response) {
 
 //------------------ LOGIN ---------------------------
 app.use(function (request, response, next) {
+  response.locals.isLoggedIn = false;
   next();
 });
 
 app.get("/login", function (request, response) {
-  console.log("fan");
   response.render("login.hbs");
 });
 
@@ -180,6 +192,8 @@ app.post("/login", function (request, response) {
     enteredPassword == correctPassword
   ) {
     // Successful login
+    console.log("kunde logga in");
+    request.session.isLoggedIn = true;
     response.redirect("/");
   } else {
     // Login failed
@@ -193,6 +207,12 @@ app.post("/login", function (request, response) {
     };
     response.render("login.hbs", model);
   }
+});
+
+app.post("/logout", function (request, response) {
+  isLoggedIn = false;
+  response.redirect("/");
+  //Lägga till ett popup fönster med "du är nu utloggad"
 });
 
 app.listen(8080);
