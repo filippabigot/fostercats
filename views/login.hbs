@@ -1,3 +1,65 @@
 <h1 class="title has-text-centered pt-6">
-  Add cat
+  Log in to your account
 </h1>
+
+<div class="columns is-centered">
+
+  <div class="column is-5">
+    <div class="columns">
+      <div class="column">
+        <div class="box">
+          <form
+            method="POST"
+            action=""
+            onkeydown="return event.key != 'Enter';"
+          >
+
+            <form method="POST" action="/login">
+              <div class="mb-3">
+                Username:
+                <input
+                  type="text"
+                  name="username"
+                  placeholder="Type username"
+                  class="input"
+                  value="{{enteredUsername}}"
+                />
+              </div>
+              <div class="mb-3">
+                Password:
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="Type password"
+                  class="input"
+                  value="{{enteredPassword}}"
+                />
+              </div>
+              <div class="column has-text-centered">
+                <button
+                  type="submit"
+                  class="button is-medium is-responsive mt-6"
+                >
+                  Login
+                </button>
+
+              </div>
+            </form>
+
+          </form>
+        </div>
+      </div>
+    </div>
+
+    {{#if errors.length}}
+      <div class="column box is-9 is-centered ml-6" style="color: red;">
+        <div class="subtitle" style="color: red;">Could not login because:</div>
+        <ul>
+          {{#each errors}}
+            <li>• {{this}}</li>
+          {{/each}}
+        </ul>
+      </div>
+    {{/if}}
+  </div>
+</div>

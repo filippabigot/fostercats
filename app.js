@@ -1,13 +1,16 @@
 const express = require("express");
 const expressHandlebars = require("express-handlebars");
-//const expressSession = require("express-session");
-//const SQLiteStore = require("connect-sqlite3")(expressSession);
-const path = require("node:path");
 const dbAvailableCats = require("./dbAvailable-cats.js");
 const dbPreviousCats = require("./dbPrevious-cats.js");
 const dbArrivingCats = require("./dbArriving-cats.js");
 
+const bodyParser = require("body-parser");
+
+const correctUsername = "filippa";
+const correctPassword = "123";
+
 const app = express();
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.engine(
   "hbs",
@@ -152,6 +155,44 @@ app.get("/available-cat/:id", function (request, response) {
       response.render("available-cat.hbs", model);
     }
   });
+});
+
+//------------------ LOGIN ---------------------------
+app.use(function (request, response, next) {
+  next();
+});
+
+app.get("/login", function (request, response) {
+  console.log("fan");
+  response.render("login.hbs");
+});
+
+app.post("/login", function (request, response) {
+  console.log("klickade på login");
+  const enteredUsername = request.body.username;
+  const enteredPassword = request.body.password;
+
+  console.log(enteredUsername);
+  console.log(enteredPassword);
+
+  if (
+    enteredUsername == correctUsername &&
+    enteredPassword == correctPassword
+  ) {
+    // Successful login
+    response.redirect("/");
+  } else {
+    // Login failed
+    const errors = [];
+    errors.push("Username and Password do not match. Please try again.");
+
+    const model = {
+      errors,
+      enteredUsername,
+      enteredPassword,
+    };
+    response.render("login.hbs", model);
+  }
 });
 
 app.listen(8080);
